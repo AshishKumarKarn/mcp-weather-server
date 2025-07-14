@@ -7,9 +7,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.ai.tool.annotation.Tool;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestClient;
-
-import java.util.Arrays;
+import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Mono;
 
 @Service
 public class StockService {
@@ -21,19 +20,17 @@ public class StockService {
 
     @Tool(description = "Get the current stock price for a stock symbol", name = "CurrentStockPrice")
     public StockResponse getStockPrice(StockRequest stockRequest) {
-        Boolean[] arr = new Boolean[2];
-        Boolean[] booleans = Arrays.copyOf(arr, 2);
-        System.out.println("Booleans array: " + Arrays.toString(booleans));
-        RestClient restClient = RestClient.builder()
+        WebClient webClient = WebClient.builder()
                 .baseUrl("https://api.api-ninjas.com/v1/stockprice")
-                .defaultHeader("X-Api-Key", ninjaApiKey
-                )
+                .defaultHeader("X-Api-Key", ninjaApiKey)
                 .build();
+
         log.info("Fetching stock price for ticker: {}", stockRequest.ticker());
 
-        return restClient.get().uri("?ticker=" + stockRequest.ticker())
+        Mono<StockResponse> ticker = webClient.get()
+                .uri(uriBuilder -> uriBuilder.queryParam("ticker", stockRequest.ticker()).build())
                 .retrieve()
-                .toEntity(StockResponse.class)
-                .getBody();
+                .bodyToMono(StockResponse.class);
+        return ticker.block();
     }
 }
