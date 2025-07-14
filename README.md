@@ -50,7 +50,7 @@ Set your Ninja API key in one of the following ways:
 
 ## MCP Config json for VSCode
 
-# config for webflux-transport Branch
+#### config for webflux-transport Branch for Spring WebFlux (Reactive SSE)
 ```
 {
 "servers": {
@@ -62,7 +62,7 @@ Set your Ninja API key in one of the following ways:
 "inputs": []
 }
 ```
-# config for main Branch
+#### config for main Branch for Spring MVC (Server-Sent Events)
 ```
 {
 "servers": {
