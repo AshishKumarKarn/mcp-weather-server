@@ -11,7 +11,7 @@ import java.util.List;
 public class CoordinateService {
 
 
-    @Tool(name = "getCoordinates", description = "Get coordinates for a given location")
+    @Tool(name = "getCoordinates", description = "Get Longitude and Latitude coordinates for a given location")
     public List<Double> getCoordinates(String location) {
         if (location == null || location.isBlank()) {
             throw new IllegalArgumentException("Location cannot be null or blank");
@@ -35,5 +35,25 @@ public class CoordinateService {
         } else {
             throw new RuntimeException("No coordinates found for the given location");
         }
+    }
+
+    @Tool(name = "getDetailedCoordinatesByLocation", description = "Get extended details about coordinates for a given location")
+    public FeatureCollection getCoordinatesDetails(String location) {
+        if (location == null || location.isBlank()) {
+            throw new IllegalArgumentException("Location cannot be null or blank");
+        }
+
+        WebClient webClient = WebClient.builder()
+                .baseUrl("https://photon.komoot.io/api/")
+                .build();
+
+        return webClient.get()
+                .uri(uriBuilder -> uriBuilder.queryParam("lang", "en")
+                        .queryParam("limit", 5)
+                        .queryParam("q", location)
+                        .build())
+                .retrieve()
+                .bodyToMono(FeatureCollection.class)
+                .block();
     }
 }
