@@ -1,4 +1,4 @@
-package com.example.mcp.service;
+package com.example.mcp.service.core;
 
 import com.example.mcp.model.FeatureCollection;
 import org.springframework.ai.tool.annotation.Tool;
@@ -11,24 +11,17 @@ import java.util.List;
 public class CoordinateService {
 
 
+    private static final String PHOTON_KOMOOT_IO_API = "https://photon.komoot.io/api/";
+
     @Tool(name = "getCoordinates", description = "Get Longitude and Latitude coordinates for a given location")
     public List<Double> getCoordinates(String location) {
         if (location == null || location.isBlank()) {
             throw new IllegalArgumentException("Location cannot be null or blank");
         }
 
-        WebClient webClient = WebClient.builder()
-                .baseUrl("https://photon.komoot.io/api/")
-                .build();
+        WebClient webClient = getWebClient();
 
-        FeatureCollection response = webClient.get()
-                .uri(uriBuilder -> uriBuilder.queryParam("lang", "en")
-                        .queryParam("limit", 5)
-                        .queryParam("q", location)
-                        .build())
-                .retrieve()
-                .bodyToMono(FeatureCollection.class)
-                .block();
+        FeatureCollection response = invokeAPI(location, webClient);
 
         if (response != null && !response.features().isEmpty()) {
             return response.features().get(0).geometry().longitudeLatitudeCoordinates();
@@ -37,16 +30,25 @@ public class CoordinateService {
         }
     }
 
+
     @Tool(name = "getDetailedCoordinatesByLocation", description = "Get extended details about coordinates for a given location")
     public FeatureCollection getCoordinatesDetails(String location) {
         if (location == null || location.isBlank()) {
             throw new IllegalArgumentException("Location cannot be null or blank");
         }
 
-        WebClient webClient = WebClient.builder()
-                .baseUrl("https://photon.komoot.io/api/")
-                .build();
+        WebClient webClient = getWebClient();
 
+        return invokeAPI(location, webClient);
+    }
+
+    private static WebClient getWebClient() {
+        return WebClient.builder()
+                .baseUrl(PHOTON_KOMOOT_IO_API)
+                .build();
+    }
+
+    private static FeatureCollection invokeAPI(String location, WebClient webClient) {
         return webClient.get()
                 .uri(uriBuilder -> uriBuilder.queryParam("lang", "en")
                         .queryParam("limit", 5)

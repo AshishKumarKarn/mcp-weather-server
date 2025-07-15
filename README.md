@@ -75,4 +75,10 @@ Set your Ninja API key in one of the following ways:
 }
 ```
 
+#### Example prompts for MCP
+```
+1. Fetch the current weather in New York City.
+2. Get details coordinates for Samastipur.
+3. What is the current stock price of Apple ?
+```
 

@@ -14,14 +14,19 @@ import reactor.core.publisher.Mono;
 public class StockService {
 
     private static final Logger log = LoggerFactory.getLogger(StockService.class);
-    @Value("${api.ninja.key}")
-    private String ninjaApiKey;
+    private static final String API_NINJAS_STOCK_PRICE = "https://api.api-ninjas.com/v1/stockprice";
+
+    private final String ninjaApiKey;
+
+    public StockService(@Value("${api.ninja.key}") String ninjaApiKey) {
+        this.ninjaApiKey = ninjaApiKey;
+    }
 
 
     @Tool(description = "Get the current stock price for a stock symbol", name = "CurrentStockPrice")
     public StockResponse getStockPrice(StockRequest stockRequest) {
         WebClient webClient = WebClient.builder()
-                .baseUrl("https://api.api-ninjas.com/v1/stockprice")
+                .baseUrl(API_NINJAS_STOCK_PRICE)
                 .defaultHeader("X-Api-Key", ninjaApiKey)
                 .build();
 

@@ -1,8 +1,8 @@
 package com.example.mcp;
 
-import com.example.mcp.service.CoordinateService;
 import com.example.mcp.service.StockService;
 import com.example.mcp.service.WeatherService;
+import com.example.mcp.service.core.CoordinateService;
 import org.springframework.ai.tool.ToolCallbackProvider;
 import org.springframework.ai.tool.method.MethodToolCallbackProvider;
 import org.springframework.boot.SpringApplication;
