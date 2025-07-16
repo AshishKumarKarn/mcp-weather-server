@@ -13,6 +13,11 @@ public class CoordinateService {
 
     private static final String PHOTON_KOMOOT_IO_API = "https://photon.komoot.io/api/";
 
+    /**
+     * This service provides methods to get coordinates for a given location.
+     * It uses the Photon API to fetch longitude and latitude information.
+     */
+    @SuppressWarnings("unused")
     @Tool(name = "getCoordinates", description = "Get Longitude and Latitude coordinates for a given location")
     public List<Double> getCoordinates(String location) {
         if (location == null || location.isBlank()) {
@@ -31,7 +36,12 @@ public class CoordinateService {
     }
 
 
-    @Tool(name = "getDetailedCoordinatesByLocation", description = "Get extended details about coordinates for a given location")
+    /**
+     * This service provides methods to get detailed coordinates for a given location.
+     * It uses the Photon API to fetch extended information about the coordinates.
+     */
+    @SuppressWarnings("unused")
+    @Tool(name = "getDetailedCoordinatesByLocation", description = "Get extended and detailed information about coordinates for a given location")
     public FeatureCollection getCoordinatesDetails(String location) {
         if (location == null || location.isBlank()) {
             throw new IllegalArgumentException("Location cannot be null or blank");
