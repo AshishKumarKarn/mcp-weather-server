@@ -15,9 +15,9 @@ This project is an MCP (Model Context Protocol) server implemented in Java using
 - localhost:8081/sse endpoint for SSE connections
 
 ## Technologies Used
-- Java
+- Java 24
 - Spring Boot (Web MVC & WebFlux)
-- Gradle
+- Gradle 8.14.3
 
 ## Stock Price API
 Stock prices are fetched in real time using the [API Ninja](https://api-ninjas.com/api/stock-price) service. You must provide an API key for this service.
@@ -54,11 +54,11 @@ Set your Ninja API key in one of the following ways:
 ```
 {
 "servers": {
-"my-mcp-server-488ad34d": {
-"url": "http://localhost:8081/sse",
-"type": "sse"
-}
-},
+    "my-mcp-server-488ad34d": {
+      "url": "http://localhost:8081/sse",
+      "type": "sse"
+    }
+  },
 "inputs": []
 }
 ```
@@ -66,13 +66,19 @@ Set your Ninja API key in one of the following ways:
 ```
 {
 "servers": {
-"my-mcp-server-488ad34d": {
-"url": "http://localhost:8081/sse",
-"type": "http"
-}
-},
+    "my-mcp-server-488ad34d": {
+      "url": "http://localhost:8081/sse",
+      "type": "http"
+    }
+  },
 "inputs": []
 }
 ```
 
+#### Example prompts for MCP
+```
+1. Fetch the current weather in New York City.
+2. Get details coordinates for Samastipur.
+3. What is the current stock price of Apple ?
+```
 

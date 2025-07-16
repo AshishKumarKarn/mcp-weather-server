@@ -9,31 +9,30 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
 
-import java.util.Arrays;
-
 @Service
 public class StockService {
 
     private static final Logger log = LoggerFactory.getLogger(StockService.class);
-    @Value("${api.ninja.key}")
-    private String ninjaApiKey;
+    private static final String API_NINJAS_STOCK_PRICE = "https://api.api-ninjas.com/v1/stockprice";
+
+    private final String ninjaApiKey;
+
+    public StockService(@Value("${api.ninja.key}") String ninjaApiKey) {
+        this.ninjaApiKey = ninjaApiKey;
+    }
 
 
     @Tool(description = "Get the current stock price for a stock symbol", name = "CurrentStockPrice")
     public StockResponse getStockPrice(StockRequest stockRequest) {
-        Boolean[] arr = new Boolean[2];
-        Boolean[] booleans = Arrays.copyOf(arr, 2);
-        System.out.println("Booleans array: " + Arrays.toString(booleans));
         RestClient restClient = RestClient.builder()
-                .baseUrl("https://api.api-ninjas.com/v1/stockprice")
-                .defaultHeader("X-Api-Key", ninjaApiKey
-                )
+                .baseUrl(API_NINJAS_STOCK_PRICE)
+                .defaultHeader("X-Api-Key", ninjaApiKey)
                 .build();
         log.info("Fetching stock price for ticker: {}", stockRequest.ticker());
 
-        return restClient.get().uri("?ticker=" + stockRequest.ticker())
+        return restClient.get()
+                .uri(uriBuilder -> uriBuilder.queryParam("ticker", stockRequest.ticker()).build())
                 .retrieve()
-                .toEntity(StockResponse.class)
-                .getBody();
+                .body(StockResponse.class);
     }
 }

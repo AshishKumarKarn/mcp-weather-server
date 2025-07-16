@@ -2,6 +2,7 @@ package com.example.mcp;
 
 import com.example.mcp.service.StockService;
 import com.example.mcp.service.WeatherService;
+import com.example.mcp.service.core.CoordinateService;
 import org.springframework.ai.tool.ToolCallbackProvider;
 import org.springframework.ai.tool.method.MethodToolCallbackProvider;
 import org.springframework.boot.SpringApplication;
@@ -16,8 +17,8 @@ public class McpWeatherApplication {
     }
 
     @Bean
-    public ToolCallbackProvider weatherToolProvider(WeatherService weatherService, StockService stockService) {
-        return MethodToolCallbackProvider.builder().toolObjects(weatherService, stockService).build();
+    public ToolCallbackProvider weatherToolProvider(WeatherService weatherService, StockService stockService, CoordinateService coordinateService) {
+        return MethodToolCallbackProvider.builder().toolObjects(weatherService, stockService, coordinateService).build();
     }
 
 }
