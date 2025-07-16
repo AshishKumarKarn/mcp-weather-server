@@ -1,6 +1,6 @@
 # MCP Weather Server
 
-This project is an MCP (Model Context Protocol) server implemented in Java using Spring Boot. It provides weather and real-time stock price data.
+This project is an MCP (Model Context Protocol) server implemented in Java using Spring Boot. It provides real-time weather and stock price data.
 
 ## Architecture
 
