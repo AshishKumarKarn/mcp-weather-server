@@ -22,6 +22,11 @@ public class StockService {
     }
 
 
+    /**
+     * This service provides methods to get the current stock price for a given stock symbol.
+     * It uses the Ninjas Stock Price API to fetch the stock price.
+     */
+    @SuppressWarnings("unused")
     @Tool(description = "Get the current stock price for a stock symbol", name = "CurrentStockPrice")
     public StockResponse getStockPrice(StockRequest stockRequest) {
         RestClient restClient = RestClient.builder()

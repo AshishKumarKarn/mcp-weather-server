@@ -16,6 +16,16 @@ public class McpWeatherApplication {
         SpringApplication.run(McpWeatherApplication.class, args);
     }
 
+    /**
+     * Provides a ToolCallbackProvider that registers the WeatherService, StockService, and CoordinateService
+     * as tools for use in AI applications.
+     *
+     * @param weatherService the WeatherService bean
+     * @param stockService the StockService bean
+     * @param coordinateService the CoordinateService bean
+     * @return a ToolCallbackProvider that can be used to access these services as tools
+     */
+    @SuppressWarnings("unused")
     @Bean
     public ToolCallbackProvider weatherToolProvider(WeatherService weatherService, StockService stockService, CoordinateService coordinateService) {
         return MethodToolCallbackProvider.builder().toolObjects(weatherService, stockService, coordinateService).build();

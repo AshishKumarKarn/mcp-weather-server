@@ -20,6 +20,11 @@ public class WeatherService {
         this.coordinateService = coordinateService;
     }
 
+    /**
+     * This service provides methods to get the current weather for a given city.
+     * It uses the Ninjas Weather API to fetch the weather data.
+     */
+    @SuppressWarnings("unused")
     @Tool(name = "getWeather", description = "get weather by city name")
     public WeatherResponse getWeather(String city) {
         List<Double> coordinates = coordinateService.getCoordinates(city);
